@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Drag and Drop CMS</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .editor {
+            width: 80%;
+            margin: 20px auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            min-height: 300px;
+            background-color: #f9f9f9;
+        }
+        .element {
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin: 10px 0;
+            background-color: white;
+        }
+        .element img,
+        .element video {
+            max-width: 100%;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="editor">
+        <h1>Drag and Drop CMS</h1>
+        <div class="element" draggable="true">
+            <p>Drag this element to add text.</p>
+        </div>
+        <div class="element" draggable="true">
+            <img src="placeholder-image.jpg" alt="Placeholder Image">
+        </div>
+        <div class="element" draggable="true">
+            <video controls>
+                <source src="placeholder-video.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+    </div>
+
+    <script>
+        const elements = document.querySelectorAll('.element');
+
+        elements.forEach(element => {
+            element.addEventListener('dragstart', e => {
+                e.dataTransfer.setData('text/plain', element.outerHTML);
+            });
+        });
+
+        const editor = document.querySelector('.editor');
+
+        editor.addEventListener('dragover', e => {
+            e.preventDefault();
+        });
+
+        editor.addEventListener('drop', e => {
+            e.preventDefault();
+            const html = e.dataTransfer.getData('text/plain');
+            editor.insertAdjacentHTML('beforeend', html);
+        });
+    </script>
+</body>
+</html>
+
